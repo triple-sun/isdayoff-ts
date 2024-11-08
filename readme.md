@@ -1,6 +1,6 @@
-# IsDayOff 
+# IsDayOff-TS
 
-IsDayOff is a Javascript API wrapper for [isdayoff.ru](https://isdayoff.ru) that returns info on working/non-working date for specified date or period.
+IsDayOff-TS is a TypeScript fork of [isdayoff](https://www.npmjs.com/package/isdayoff), an API wrapper for [isdayoff.ru](https://isdayoff.ru) that calculates business day status for any day, month or year, or for an arbitrary time period no longer than 366 days.
 
 ## Installation
 
@@ -10,43 +10,46 @@ npm install isdayoff --save
 
 ## Usage
 
-```js
-const api = require('isdayoff')();
+```ts
+import api from 'isdayoff-ts';
 // Alternatively API object can be cerated:
-// const { IsDayOffAPI } = require('isdayoff');
+// import { IsDayOffAPI } from 'isdayoff-ts'
 // const api = new IsDayOffAPI();
 
 // returns is today wokring/non-working day
-api.today()
+api
+  .today()
   .then((res) => console.log(`Today is ${res ? 'non-' : ''}working day.`))
   .catch((err) => console.log(err.message));
 
 // returns arrray of wokring/non-working day for September 10
-api.date({ month: 8, date: 10 }) 
+api
+  .date({ month: 8, date: 10 })
   .then((res) => console.log(`10.09 is ${res ? 'non-' : ''}working day.`))
   .catch((err) => console.log(err.message));
 
 // returns arrray of wokring/non-working day for September
-api.month({ month: 8 })
+api
+  .month({ month: 8 })
   .then((res) => console.log(JSON.stringify(res)))
   .catch((err) => console.log(err.message));
 
 // returns arrray of wokring/non-working day for 2021
-api.year({ year: 2021 }) 
+api
+  .year({ year: 2021 })
   .then((res) => console.log(JSON.stringify(res)))
   .catch((err) => console.log(err.message));
 
 // returns arrray of wokring/non-working day for periodd
-api.period({
-  start: new Date('2020-09-10'),
-  end: new Date('2020-09-15')
-})
+api
+  .period({
+    start: new Date('2020-09-10'),
+    end: new Date('2020-09-15'),
+  })
   .then((res) => console.log(JSON.stringify(res)))
   .catch((err) => console.log(err.message));
-
 ```
 
 ## License
 
 MIT
-

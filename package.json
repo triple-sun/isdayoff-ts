@@ -1,23 +1,42 @@
 {
-  "name": "isdayoff",
-  "version": "1.0.1",
+  "name": "isdayoff-ts",
+  "version": "1.0.2",
   "main": "index.js",
   "license": "MIT",
-  "author": "bladerunner2020 <pivovarov@gmail.com>",
+  "author": "bladerunner2020 <pivovarov@gmail.com> & triplesunn <sploit.strannik@gmail.com>",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "tsc"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/foxford-backoffice/fox-mattermost.git"
+  },
+  "bugs": {
+    "url": "https://github.com/foxford-backoffice/fox-mattermost/issues"
+  },
+  "homepage": "https://github.com/foxford-backoffice/fox-mattermost#readme",
+  "files": [
+    "build"
+  ],
   "devDependencies": {
-    "@babel/core": "^7.5.5",
-    "@babel/preset-env": "^7.5.5",
-    "babel-jest": "^24.8.0",
-    "eslint": "^6.8.0",
-    "eslint-config-airbnb-base": "^14.1.0",
-    "eslint-plugin-import": "^2.20.2",
-    "jest": "^24.8.0"
+    "@babel/core": "^7.26.0",
+    "@types/debug": "^4.1.12",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.9.0",
+    "@typescript-eslint/eslint-plugin": "^7.16.1",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "jest": "^29.0.0",
+    "prettier": "^3.0.0",
+    "ts-jest": "^29.2.5"
   },
   "dependencies": {
+    "axios": "^1.7.7",
     "debug": "^4.1.1",
-    "js-yaml": "^3.14.0"
+    "eslint-plugin-import": "^2.31.0",
+    "js-yaml": "^3.14.0",
+    "ts-node": "^10.9.2"
   }
 }
