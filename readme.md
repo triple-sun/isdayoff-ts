@@ -5,7 +5,7 @@ IsDayOff-TS is a TypeScript fork of [isdayoff](https://www.npmjs.com/package/isd
 ## Installation
 
 ```bash
-npm install isdayoff --save
+npm install isdayoff-ts --save
 ```
 
 ## Usage
