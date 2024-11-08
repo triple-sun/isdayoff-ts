@@ -150,5 +150,3 @@ export class IsDayOffAPI {
     }
   }
 }
-
-export default IsDayOffAPI;

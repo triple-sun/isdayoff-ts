@@ -11,7 +11,7 @@ npm install isdayoff-ts --save
 ## Usage
 
 ```ts
-import api from 'isdayoff-ts';
+import IsDayOff from 'isdayoff-ts';
 /**
  * Alternatively API object can be created:
  * import { IsDayOffAPI } from 'isdayoff-ts'
@@ -19,31 +19,31 @@ import api from 'isdayoff-ts';
  */
 
 /** returns 1 if today is a business day or 0 if it's not */
-api
+IsDayOff
   .today()
   .then((res) => console.log(`Today is ${res ? 'non-' : ''}working day.`))
   .catch((err) => console.log(err.message));
 
 /** returns 1 if September 10  is a business day or 0 if it's not */
-api
+IsDayOff
   .day({ month: 9, day: 10 })
   .then((res) => console.log(`10.09 is ${res ? 'non-' : ''}working day.`))
   .catch((err) => console.log(err.message));
 
 /** returns an array of business/non-business days for September @example [0,1,1,0] */
-api
+IsDayOff
   .month({ month: 9 })
   .then((res) => console.log(JSON.stringify(res)))
   .catch((err) => console.log(err.message));
 
 // returns an array of business/non-business days for 2021
-api
+IsDayOff
   .year({ year: 2021 })
   .then((res) => console.log(JSON.stringify(res)))
   .catch((err) => console.log(err.message));
 
 // returns an array of business/non-business days for periodd
-api
+IsDayOff
   .period({
     start: new Date('2020-09-10'),
     end: new Date('2020-09-15'),
