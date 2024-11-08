@@ -31,7 +31,7 @@ export type CallApiBase = {
 
 export type CallApiOptions = Day & Year & Month & Period & CallApiBase;
 
-export type DateOptions = Day & Month & Year & CallApiBase;
-export type MonthOptions = Month & Year & CallApiBase;
-export type YearOptions = Year & CallApiBase;
-export type PeriodOptions = Period & CallApiBase
+export type DayOptions = Required<Day> & Month & Year & CallApiBase;
+export type MonthOptions = Required<Month> & Year & CallApiBase;
+export type YearOptions = Required<Year> & CallApiBase;
+export type PeriodOptions = Period & CallApiBase;

@@ -2,7 +2,7 @@ import Debug from 'debug';
 import {
   CallApiBase,
   CallApiOptions,
-  DateOptions,
+  DayOptions,
   MonthOptions,
   PeriodOptions,
 } from './types';
@@ -30,10 +30,32 @@ export class IsDayOffAPI {
     return Number(res);
   }
 
+  public async day(
+    {
+      year = new Date().getFullYear(),
+      month = new Date().getMonth() + 1,
+      day = new Date().getDate(),
+      ...options
+    }: DayOptions = {
+      year: new Date().getFullYear(),
+      month: new Date().getMonth(),
+      day: new Date().getDate(),
+    },
+  ) {
+    return Number(
+      await this.getRawData({
+        year,
+        month,
+        day,
+        ...options,
+      }),
+    );
+  }
+
   public async month(
     {
       year = new Date().getFullYear(),
-      month = new Date().getMonth(),
+      month = new Date().getMonth() + 1,
       ...options
     }: MonthOptions = {
       year: new Date().getFullYear(),
@@ -54,33 +76,8 @@ export class IsDayOffAPI {
     return this.getData({ year, ...options });
   }
 
-  public async day(
-    {
-      year = new Date().getFullYear(),
-      month = new Date().getMonth(),
-      day = new Date().getDate(),
-      ...options
-    }: DateOptions = {
-      year: new Date().getFullYear(),
-      month: new Date().getMonth(),
-      day: new Date().getDate(),
-    },
-  ) {
-    return Number(
-      await this.getRawData({
-        year,
-        month,
-        day,
-        ...options,
-      }),
-    );
-  }
-
   public async period({ start, end, ...options }: PeriodOptions) {
-
-    console.log({start, end})
     const res = await this.getRawData({ start, end, ...options });
-    console.log({res})
     return res.split('').map((item) => Number(item));
   }
 
@@ -109,7 +106,7 @@ export class IsDayOffAPI {
     if (year) {
       url += `/api/getdata?year=${year}`;
       if (month) {
-        url += `&month=${`00${month + 1}`.slice(-2)}`;
+        url += `&month=${`00${month}`.slice(-2)}`;
         if (day) {
           url += `&day=${`00${day}`.slice(-2)}`;
         }
@@ -133,8 +130,6 @@ export class IsDayOffAPI {
     }
 
     debug(`URL: ${url}`);
-
-    console.log({ url });
 
     const { data } = await axios.get(url, { responseType: 'text' });
 

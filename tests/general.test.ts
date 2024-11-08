@@ -11,7 +11,7 @@ describe('IsDayOffAPI tests', () => {
 
   it('month', async () => {
     const api = new IsDayOffAPI();
-    const res = await api.month({ month: 8 });
+    const res = await api.month({ month: 9 });
 
     expect(res.length).toBeGreaterThanOrEqual(30);
   });
@@ -28,7 +28,7 @@ describe('IsDayOffAPI tests', () => {
 
     const res = await api.day({
       year: 1970,
-      month: 8,
+      month: 9,
       day: 10,
       pre: true,
     });
