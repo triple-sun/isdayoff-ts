@@ -3,9 +3,9 @@ type Year = {
   year?: number;
 };
 
-type Day = {
+type TDate = {
   /** Число */
-  day?: number;
+  date?: number;
 };
 
 type Month = {
@@ -29,9 +29,9 @@ export type CallApiBase = {
   covid?: boolean;
 };
 
-export type CallApiOptions = Day & Year & Month & Period & CallApiBase;
+export type CallApiOptions = TDate & Year & Month & Period & CallApiBase;
 
-export type DayOptions = Required<Day> & Month & Year & CallApiBase;
+export type DayOptions = Required<TDate> & Month & Year & CallApiBase;
 export type MonthOptions = Required<Month> & Year & CallApiBase;
 export type YearOptions = Required<Year> & CallApiBase;
 export type PeriodOptions = Period & CallApiBase;

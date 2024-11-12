@@ -21,11 +21,11 @@ describe('IsDayOffAPI tests', () => {
     expect(res.length).toBe(366);
   });
 
-  it('day', async () => {
-    const res = await IsDayOff.day({
+  it('date', async () => {
+    const res = await IsDayOff.date({
       year: 1970,
       month: 9,
-      day: 10,
+      date: 10,
       pre: true,
     });
 

@@ -24,29 +24,29 @@ export class IsDayOffAPI {
       ...options,
       year: now.getFullYear(),
       month: now.getMonth(),
-      day: now.getDate(),
+      date: now.getDate(),
     });
 
     return Number(res);
   }
 
-  public async day(
+  public async date(
     {
       year = new Date().getFullYear(),
       month = new Date().getMonth() + 1,
-      day = new Date().getDate(),
+      date = new Date().getDate(),
       ...options
     }: DayOptions = {
       year: new Date().getFullYear(),
       month: new Date().getMonth(),
-      day: new Date().getDate(),
+      date: new Date().getDate(),
     },
   ) {
     return Number(
       await this.getRawData({
         year,
         month,
-        day,
+        date,
         ...options,
       }),
     );
@@ -94,7 +94,7 @@ export class IsDayOffAPI {
   private async callApi({
     year,
     month,
-    day,
+    date,
     start,
     end,
     country,
@@ -107,8 +107,8 @@ export class IsDayOffAPI {
       url += `/api/getdata?year=${year}`;
       if (month) {
         url += `&month=${`00${month}`.slice(-2)}`;
-        if (day) {
-          url += `&day=${`00${day}`.slice(-2)}`;
+        if (date) {
+          url += `&day=${`00${date}`.slice(-2)}`;
         }
       }
     }
