@@ -1,6 +1,6 @@
 {
   "name": "isdayoff-ts",
-  "version": "1.0.6",
+  "version": "1.1.0",
   "main": "./build/index.js",
   "license": "MIT",
   "author": "bladerunner2020 <pivovarov@gmail.com> & triplesunn <sploit.strannik@gmail.com>",
@@ -10,12 +10,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/foxford-backoffice/fox-mattermost.git"
+    "url": "git+https://github.com/triple-sun/isdayoff-ts.git"
   },
   "bugs": {
-    "url": "https://github.com/foxford-backoffice/fox-mattermost/issues"
+    "url": "https://github.com/triple-sun/isdayoff-ts/issues"
   },
-  "homepage": "https://github.com/foxford-backoffice/fox-mattermost#readme",
+  "homepage": "https://github.com/triple-sun/isdayoff-ts#readme",
   "files": [
     "build"
   ],
