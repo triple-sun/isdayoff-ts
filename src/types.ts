@@ -1,37 +1,16 @@
-type Year = {
-  /** Год */
-  year?: number;
-};
-
-type TDate = {
-  /** Число */
-  date?: number;
-};
-
-type Month = {
-  /** Месяц */
-  month?: number;
-};
-
-type Period = {
-  /** Начало периода */
-  start?: Date;
-  /** Конец периода */
-  end?: Date;
-};
-
-export type CallApiBase = {
-  /** Код страны (по-умолчанию Россия) */
-  country?: string;
-  /** Помечать сокращённые рабочие дни цифрой 2 */
+export type ApiOptions = {
+  /** Country code (default: RU) */
+  cc?: string;
+  /** use 2 for short days @default false */
   pre?: boolean;
-  /** Помечать рабочие дни цифрой 4 (в связи с пандемией COVID-19) */
+  /** use 5 for covid-era workdays @default false */
   covid?: boolean;
 };
 
-export type CallApiOptions = TDate & Year & Month & Period & CallApiBase;
-
-export type DayOptions = Required<TDate> & Month & Year & CallApiBase;
-export type MonthOptions = Required<Month> & Year & CallApiBase;
-export type YearOptions = Required<Year> & CallApiBase;
-export type PeriodOptions = Period & CallApiBase;
+export type ApiParams = {
+  day?: string;
+  month?: string;
+  year?: string;
+  date1?: string;
+  date2?: string;
+} & ApiOptions;
