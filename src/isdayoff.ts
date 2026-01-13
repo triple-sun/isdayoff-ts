@@ -1,7 +1,7 @@
 import { CallApiOptions, ApiOptions } from "./types";
 import { IsDayOffCallType, IsDayOffValue } from "./enum";
 
-export class IsDayOff {
+export class IsDayOffDay {
   private readonly v: IsDayOffValue;
 
   constructor(v: IsDayOffValue) {
@@ -23,11 +23,16 @@ export class IsDayOff {
   }
 }
 
-export class IsDayOffApi {
-  private baseUrl: string;
+export class IsDayOff {
+  private url: string;
 
   constructor(url: string) {
-    this.baseUrl = url;
+    this.url = url
+  }
+
+  public setUrl(url: string): this {
+    this.url = url;
+    return this
   }
 
   public async today(options: ApiOptions = {}) {
@@ -54,7 +59,7 @@ export class IsDayOffApi {
    * @param options - @see ApiOptions
    * @returns true - day off, false - business day
    */
-  public async day(date = new Date(), options?: ApiOptions): Promise<IsDayOff> {
+  public async day(date = new Date(), options?: ApiOptions): Promise<IsDayOffDay> {
     return this.formatSingleResponse(
       await this.callApi({
         type: IsDayOffCallType.Day,
@@ -70,12 +75,12 @@ export class IsDayOffApi {
    * Gets IsDayOff values for a month
    * @param date - date @default today
    * @param options - @see ApiOptions
-   * @returns IsDayOff[] @see IsDayOff - results for each day of month of specified date; true - day off, false - business day
+   * @returns IsDayOff[] @see IsDayOffDay - results for each day of month of specified date; true - day off, false - business day
    */
   public async month(
     date = new Date(),
     options?: ApiOptions
-  ): Promise<IsDayOff[]> {
+  ): Promise<IsDayOffDay[]> {
     return this.formatIntervalResponse(
       await this.callApi({
         type: IsDayOffCallType.Month,
@@ -90,12 +95,12 @@ export class IsDayOffApi {
    * Gets IsDayOff values for a year
    * @param date - date @default today
    * @param options - @see ApiOptions
-   * @returns IsDayOff[] @see IsDayOff - results for each day in the year of specified date; true - day off, false - business day
+   * @returns IsDayOff[] @see IsDayOffDay - results for each day in the year of specified date; true - day off, false - business day
    */
   public async year(
     date = new Date(),
     options?: ApiOptions
-  ): Promise<IsDayOff[]> {
+  ): Promise<IsDayOffDay[]> {
     return this.formatIntervalResponse(
       await this.callApi({
         type: IsDayOffCallType.Year,
@@ -110,13 +115,13 @@ export class IsDayOffApi {
    * @param start - Interval start date
    * @param start - Interval end date
    * @param options - @see ApiOptions
-   * @returns IsDayOff[] @see IsDayOff - results for each day of specified interval;
+   * @returns IsDayOff[] @see IsDayOffDay - results for each day of specified interval;
    */
   public async interval(
     start: Date,
     end: Date,
     options?: ApiOptions
-  ): Promise<IsDayOff[]> {
+  ): Promise<IsDayOffDay[]> {
     /** interval validation */
     if (
       Math.abs(start.getTime() - end.getTime()) / (1000 * 60 * 60 * 24) >
@@ -139,7 +144,7 @@ export class IsDayOffApi {
    * Checks if the year is a leap year 
    * @param date - date @default current
    * @returns boolean
- @see IsDayOff   */
+ @see IsDayOffDay   */
   public async isLeapYear(date: Date = new Date()): Promise<Boolean> {
     const response = await this.callApi({
       type: IsDayOffCallType.LeapYear,
@@ -151,7 +156,7 @@ export class IsDayOffApi {
   /** Main api calling function */
   private async callApi(options: CallApiOptions): Promise<string> {
     const response = await fetch(
-      `${this.baseUrl}/${this.prepareEndpoint(options)}?${this.prepareQuery(options)}`
+      `${this.url}/${this.prepareEndpoint(options)}?${this.prepareQuery(options)}`
     ).then((res) => res.text());
 
     /** Handle response with error codes */
@@ -172,14 +177,13 @@ export class IsDayOffApi {
     }
   }
   /** Parse returned value */
-  private readonly parseValue = (value: string): IsDayOff => {
+  private readonly parseValue = (value: string): IsDayOffDay => {
     const parsed = parseInt(value);
     switch (true) {
-      case isNaN(parsed):
       case !Object.values(IsDayOffValue).includes(parsed):
         throw new Error(`Unexpected value: [${value}]`);
       default:
-        return new IsDayOff(parsed);
+        return new IsDayOffDay(parsed);
     }
   };
   /** Formats year to YYYY */
@@ -194,10 +198,10 @@ export class IsDayOffApi {
   /** Formats date to YYYYMMDD */
   private readonly formatFullDate = (date: Date): string =>
     `${this.formatYear(date)}${this.formatMonth(date)}${this.formatDay(date)}`;
-  private readonly formatSingleResponse = (response: string): IsDayOff =>
+  private readonly formatSingleResponse = (response: string): IsDayOffDay =>
     this.parseValue(response);
   /** Formats interval response to IsDayOff[] */
-  private readonly formatIntervalResponse = (response: string): IsDayOff[] =>
+  private readonly formatIntervalResponse = (response: string): IsDayOffDay[] =>
     response.split("").map((item) => this.parseValue(item));
   /** Formats isLeapYear response */
   private readonly formatIsLeapYearResponse = (response: string): boolean =>

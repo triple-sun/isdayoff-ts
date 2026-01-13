@@ -7,6 +7,10 @@ IsDayOff-TS is a TypeScript fork and improvement of [isdayoff](https://www.npmjs
 - gets day-off status for any month, year or an arbitrary time period no longer than 366 days
 - checks if any year is a leap year
 
+## Requirements
+
+Node.js v18 and higher
+
 ## Installation
 
 ```bash
@@ -15,26 +19,83 @@ npm install isdayoff-ts --save
 
 ## Usage
 
+### Basic functions
+
+IsDayOff api returns `IsDayOffValue`:
+
+- 0 for business days
+- 1 for non-business days
+- 2 for short days when using `{ pre: true }`
+- 4 for covid-era business days with `{ covid: true }`
+- 8 for holidays when using `{ holidays: true }`
+
+#### Custom api provider
+
+Your custom api shoud have following endpoints:
+
+- `/today` - no params
+- `/tomorrow` - no params
+- `/api/getdata`
+- - `year` YYYY or YY
+- - `month` MM
+- - `day` DD
+- - `date1` & `date2` YYYYMMDD
+- - other api options (see ApiOptions type)
+- - boolean options should be numeric
+- `/api/isleap`
+- - `year` YYYY or YY
+
+```ts
+import { IsDayOffApi } from "isdayoff-ts";
+const yourIsDayOff = new IsDayOffApi("https://your.api.url") 
+
+import isDayOff,
+
+
+// using default export
+await isDayOff
+  .setUrl("https://your.api.url") 
+  .today() // ..etc
+```
+
+#### Today
+
 ```ts
 import isDayOff from "isdayoff-ts";
 
-/** returns false if today is a business day or true if it's not */
+/** returns value for today */
 isDayOff
   .today()
-  .then((res) => {
-    console.log(`${date} is a ${res.bool() ? "non-" : ""}working day.`);
+  .then((
+    res // IsDayOffDay object
+    ) => {
+    const bool = res.bool(); // gets IsDayOffValue as boolean: true for days off and holidays, otherwise false;
+    const val = res.value(); // gets IsDayOffValue from IsDayOffDay object;
 
-    res.value() /** @see IsDayOffValue */
+    console.log(`${date} is a ${bool ? "non-" : ""}working day.`);
+
   })
   .catch((err) => console.log(err.message));
+```
 
-/** returns false if tomorrow is a business day or true if it's not */
+#### Tomorrow
+
+```ts
+import isDayOff from "isdayoff-ts";
+
+/** returns value for tomorrow */
 isDayOff
   .tomorrow()
   .then((res) =>
     console.log(`${date} is a ${res.bool() ? "non-" : ""}working day.`)
   )
   .catch((err) => console.log(err.message));
+```
+
+#### Any date
+
+```ts
+import isDayOff from "isdayoff-ts";
 
 /** returns false if September 10 is a business day or true if it's not */
 const date = new Date("2020-09-10");
@@ -44,8 +105,14 @@ isDayOff
     console.log(`${date} is a ${res.bool() ? "non-" : ""}working day.`)
   )
   .catch((err) => console.log(err.message));
+```
 
-/** returns an array of business/non-business days for September 2020 @example [0,1,1,0] */
+#### Month
+
+```ts
+import isDayOff from "isdayoff-ts";
+
+/** returns an array of IsDayOffDay objects for September 2020 */
 isDayOff
   .month(new Date("2020-09-01"))
   .then((res) => {
@@ -56,8 +123,14 @@ isDayOff
     });
   })
   .catch((err) => console.log(err.message));
+```
 
-// returns an array of business/non-business days for 2021 year
+#### Year
+
+```ts
+import isDayOff from "isdayoff-ts";
+
+// returns an array of IsDayOffDay objects for 2021 year
 isDayOff
   .year(new Date(2021))
   .then((res) => {
@@ -68,8 +141,14 @@ isDayOff
     });
   })
   .catch((err) => console.log(err.message));
+```
 
-// returns an array of business/non-business days for an interval
+#### Interval
+
+```ts
+import isDayOff from "isdayoff-ts";
+
+// returns an array of IsDayOffDay objects for an interval
 isDayOff
   .interval(new Date("2020-09-10"), new Date("2020-09-15"))
   .then((res) =>
@@ -80,6 +159,12 @@ isDayOff
     })
   )
   .catch((err) => console.log(err.message));
+```
+
+#### Is Leap Year
+
+```ts
+import isDayOff from "isdayoff-ts";
 
 // returns is year a leap year or not
 const leapDate = new Date("2020-09-10");
@@ -91,7 +176,6 @@ isDayOff
     )
   )
   .catch((err) => console.log(err.message));
-
 ```
 
 ## License

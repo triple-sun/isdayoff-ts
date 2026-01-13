@@ -1,23 +1,23 @@
 import { IsDayOffValue } from "./enum";
-import { IsDayOff, IsDayOffApi } from "./isdayoff";
+import { IsDayOffDay, IsDayOff } from "./isdayoff";
 
 describe("IsDayOffAPI tests", () => {
-  const isDayOff = new IsDayOffApi("https://isdayoff.ru");
+  const isDayOff = new IsDayOff("https://isdayoff.ru");
   const TEST_DATE = new Date("2026-01-01");
   const TEST_DATE_START = new Date("2025-12-27");
   const TEST_EXPECTED = [
-    new IsDayOff(IsDayOffValue.DayOff),
-    new IsDayOff(IsDayOffValue.DayOff),
-    new IsDayOff(IsDayOffValue.BusinessDay),
-    new IsDayOff(IsDayOffValue.BusinessDay),
-    new IsDayOff(IsDayOffValue.DayOff),
-    new IsDayOff(IsDayOffValue.DayOff),
+    new IsDayOffDay(IsDayOffValue.DayOff),
+    new IsDayOffDay(IsDayOffValue.DayOff),
+    new IsDayOffDay(IsDayOffValue.BusinessDay),
+    new IsDayOffDay(IsDayOffValue.BusinessDay),
+    new IsDayOffDay(IsDayOffValue.DayOff),
+    new IsDayOffDay(IsDayOffValue.DayOff),
   ];
 
   it("should get for today", async () => {
     const res = await isDayOff.today();
 
-    expect(res).toBeInstanceOf(IsDayOff);
+    expect(res).toBeInstanceOf(IsDayOffDay);
     expect(res.value()).toBeGreaterThanOrEqual(0);
   });
 
@@ -67,11 +67,11 @@ describe("IsDayOffAPI tests", () => {
   });
 
   it("should simplify to boolean", () => {
-    const businessDay = new IsDayOff(IsDayOffValue.BusinessDay);
-    const dayOff = new IsDayOff(IsDayOffValue.DayOff);
-    const shortDay = new IsDayOff(IsDayOffValue.ShortDay);
-    const covidDay = new IsDayOff(IsDayOffValue.CovidBusinessDay);
-    const holiday = new IsDayOff(IsDayOffValue.Holiday);
+    const businessDay = new IsDayOffDay(IsDayOffValue.BusinessDay);
+    const dayOff = new IsDayOffDay(IsDayOffValue.DayOff);
+    const shortDay = new IsDayOffDay(IsDayOffValue.ShortDay);
+    const covidDay = new IsDayOffDay(IsDayOffValue.CovidBusinessDay);
+    const holiday = new IsDayOffDay(IsDayOffValue.Holiday);
 
     expect(businessDay.bool()).toBe(false);
     expect(dayOff.bool()).toBe(true);

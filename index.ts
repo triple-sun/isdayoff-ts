@@ -1,10 +1,8 @@
-import { IsDayOffApi as IsDayOffApiClass } from './src/isdayoff';
+import { IsDayOff } from "./src/isdayoff";
 
-export * from './src/isdayoff';
-export * from './src/types';
-export * from './src/enum'
+export * from "./src/types";
+export * from "./src/enum";
 
-const ISDAYOFF_DEFAULT_URL = "https://isdayoff.ru";
-const IsDayOff = new IsDayOffApiClass(ISDAYOFF_DEFAULT_URL);
+const isDayOff = new IsDayOff("https://isdayoff.ru");
 
-export default IsDayOff;
+export default isDayOff;
