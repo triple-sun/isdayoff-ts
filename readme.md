@@ -21,7 +21,14 @@ npm install isdayoff-ts --save
 
 ### Basic functions
 
-IsDayOff api returns `IsDayOffValue`:
+IsDayOff api calls for dates return an instance of `IsDayOffValue`:
+
+`IsDayOffValue.bool()` returns:
+
+- `true` for non-business days and holidays
+- `false` for other values
+
+`IsDayOffValue.value()` returns:
 
 - 0 for business days
 - 1 for non-business days
@@ -46,13 +53,8 @@ Your custom api shoud have following endpoints:
 - - `year` YYYY or YY
 
 ```ts
-import { IsDayOffApi } from "isdayoff-ts";
-const yourIsDayOff = new IsDayOffApi("https://your.api.url") 
+import isDayOff from "isdayoff-ts";
 
-import isDayOff,
-
-
-// using default export
 await isDayOff
   .setUrl("https://your.api.url") 
   .today() // ..etc
