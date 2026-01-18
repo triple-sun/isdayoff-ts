@@ -1,6 +1,9 @@
-# IsDayOff-TS
+# idayoff-ts
 
-IsDayOff-TS is a TypeScript fork and improvement of [isdayoff](https://www.npmjs.com/package/isdayoff), an API wrapper for [isdayoff.ru](https://isdayoff.ru).
+[![NPM Version](https://img.shields.io/npm/v/isdayoff-ts.svg?style=flat-square)](https://www.npmjs.com/package/isdayoff-ts)
+[![NPM Downloads](https://img.shields.io/npm/dt/isdayoff-ts.svg?style=flat-square)](https://www.npmjs.com/package/isdayoff-ts)
+
+isdayoff-ts is a TypeScript fork and improvement of [isdayoff](https://www.npmjs.com/package/isdayoff), an API wrapper for [isdayoff.ru](https://isdayoff.ru).
 
 - zero dependencies
 - gets day-off status for today, tomorrow or any day
