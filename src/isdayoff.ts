@@ -1,19 +1,19 @@
 import { IsDayOffCallType, IsDayOffValue } from "./enum";
-import type { ApiOptions, CallApiOptions } from "./types";
+import type { CallApiOptions, IsDayOffApiOptions } from "./types";
 
 export class IsDayOffDay {
-	private readonly v: IsDayOffValue;
+	readonly #value: Readonly<IsDayOffValue>;
 
 	constructor(v: IsDayOffValue) {
-		this.v = v;
+		this.#value = v;
 	}
 
-	value(): IsDayOffValue {
-		return this.v;
+	public value(): Readonly<IsDayOffValue> {
+		return this.#value;
 	}
 
-	bool(): boolean {
-		switch (this.v) {
+	public bool(): Readonly<boolean> {
+		switch (this.#value) {
 			case IsDayOffValue.DayOff:
 			case IsDayOffValue.Holiday:
 				return true;
@@ -24,18 +24,24 @@ export class IsDayOffDay {
 }
 
 export class IsDayOff {
-	private url: string;
+	#url: string;
 
 	constructor(url: string) {
-		this.url = url;
+		this.#url = url;
 	}
 
 	public setUrl(url: string): this {
-		this.url = url;
+		this.#url = url;
 		return this;
 	}
 
-	public async today(options: ApiOptions = {}) {
+	public get url(): Readonly<string> {
+		return this.#url;
+	}
+
+	public async today(
+		options: IsDayOffApiOptions = {},
+	): Promise<Readonly<IsDayOffDay>> {
 		return this.formatSingleResponse(
 			await this.callApi({
 				type: IsDayOffCallType.Today,
@@ -44,7 +50,9 @@ export class IsDayOff {
 		);
 	}
 
-	public async tomorrow(options: ApiOptions = {}) {
+	public async tomorrow(
+		options: IsDayOffApiOptions = {},
+	): Promise<Readonly<IsDayOffDay>> {
 		return this.formatSingleResponse(
 			await this.callApi({
 				type: IsDayOffCallType.Tomorrow,
@@ -56,13 +64,13 @@ export class IsDayOff {
 	/**
 	 * Gets IsDayOff value for a single day
 	 * @param date - date @default today
-	 * @param options - @see ApiOptions
+	 * @param options - @see IsDayOffApiOptions
 	 * @returns true - day off, false - business day
 	 */
 	public async day(
 		date = new Date(),
-		options?: ApiOptions,
-	): Promise<IsDayOffDay> {
+		options?: IsDayOffApiOptions,
+	): Promise<Readonly<IsDayOffDay>> {
 		return this.formatSingleResponse(
 			await this.callApi({
 				type: IsDayOffCallType.Day,
@@ -77,13 +85,13 @@ export class IsDayOff {
 	/**
 	 * Gets IsDayOff values for a month
 	 * @param date - date @default today
-	 * @param options - @see ApiOptions
+	 * @param options - @see IsDayOffApiOptions
 	 * @returns IsDayOff[] @see IsDayOffDay - results for each day of month of specified date; true - day off, false - business day
 	 */
 	public async month(
 		date = new Date(),
-		options?: ApiOptions,
-	): Promise<IsDayOffDay[]> {
+		options?: IsDayOffApiOptions,
+	): Promise<ReadonlyArray<Readonly<IsDayOffDay>>> {
 		return this.formatIntervalResponse(
 			await this.callApi({
 				type: IsDayOffCallType.Month,
@@ -97,13 +105,13 @@ export class IsDayOff {
 	/**
 	 * Gets IsDayOff values for a year
 	 * @param date - date @default today
-	 * @param options - @see ApiOptions
+	 * @param options - @see IsDayOffApiOptions
 	 * @returns IsDayOff[] @see IsDayOffDay - results for each day in the year of specified date; true - day off, false - business day
 	 */
 	public async year(
 		date = new Date(),
-		options?: ApiOptions,
-	): Promise<IsDayOffDay[]> {
+		options?: IsDayOffApiOptions,
+	): Promise<ReadonlyArray<Readonly<IsDayOffDay>>> {
 		return this.formatIntervalResponse(
 			await this.callApi({
 				type: IsDayOffCallType.Year,
@@ -117,14 +125,14 @@ export class IsDayOff {
 	 * Gets IsDayOff values for an interval
 	 * @param start - Interval start date
 	 * @param start - Interval end date
-	 * @param options - @see ApiOptions
+	 * @param options - @see IsDayOffApiOptions
 	 * @returns IsDayOff[] @see IsDayOffDay - results for each day of specified interval;
 	 */
 	public async interval(
 		start: Date,
 		end: Date,
-		options?: ApiOptions,
-	): Promise<IsDayOffDay[]> {
+		options?: IsDayOffApiOptions,
+	): Promise<ReadonlyArray<Readonly<IsDayOffDay>>> {
 		/** interval validation */
 		if (
 			Math.abs(start.getTime() - end.getTime()) / (1000 * 60 * 60 * 24) >
@@ -157,9 +165,11 @@ export class IsDayOff {
 	}
 
 	/** Main api calling function */
-	private async callApi(options: CallApiOptions): Promise<string> {
+	private async callApi(
+		options: Readonly<CallApiOptions>,
+	): Promise<Readonly<string>> {
 		const response = await fetch(
-			`${this.url}/${this.prepareEndpoint(options)}?${this.prepareQuery(options)}`,
+			`${this.#url}/${this.prepareEndpoint(options)}?${this.prepareQuery(options)}`,
 		).then((res) => res.text());
 
 		/** Handle response with error codes */
@@ -180,7 +190,7 @@ export class IsDayOff {
 		}
 	}
 	/** Parse returned value */
-	private readonly parseValue = (value: string): IsDayOffDay => {
+	private readonly parseValue = (value: string): Readonly<IsDayOffDay> => {
 		const parsed = parseInt(value, 10);
 		switch (true) {
 			case !Object.values(IsDayOffValue).includes(parsed):
@@ -190,28 +200,34 @@ export class IsDayOff {
 		}
 	};
 	/** Formats year to YYYY */
-	private readonly formatYear = (date: Date): string =>
+	private readonly formatYear = (date: Date): Readonly<string> =>
 		`0000${date.getFullYear()}`.slice(-4);
 	/** Fortmats month to MM */
-	private readonly formatMonth = (date: Date): string =>
+	private readonly formatMonth = (date: Date): Readonly<string> =>
 		`00${date.getMonth() + 1}`.slice(-2);
 	/** Formats day to DD */
-	private readonly formatDay = (date: Date): string =>
+	private readonly formatDay = (date: Date): Readonly<string> =>
 		`00${date.getDate()}`.slice(-2);
 	/** Formats date to YYYYMMDD */
-	private readonly formatFullDate = (date: Date): string =>
+	private readonly formatFullDate = (date: Date): Readonly<string> =>
 		`${this.formatYear(date)}${this.formatMonth(date)}${this.formatDay(date)}`;
-	private readonly formatSingleResponse = (response: string): IsDayOffDay =>
-		this.parseValue(response);
+	private readonly formatSingleResponse = (
+		response: string,
+	): Readonly<IsDayOffDay> => this.parseValue(response);
 	/** Formats interval response to IsDayOff[] */
-	private readonly formatIntervalResponse = (response: string): IsDayOffDay[] =>
+	private readonly formatIntervalResponse = (
+		response: Readonly<string>,
+	): ReadonlyArray<Readonly<IsDayOffDay>> =>
 		response.split("").map((item) => this.parseValue(item));
 	/** Formats isLeapYear response */
-	private readonly formatIsLeapYearResponse = (response: string): boolean =>
-		Boolean(this.parseValue(response));
+	private readonly formatIsLeapYearResponse = (
+		response: string,
+	): Readonly<boolean> => Boolean(this.parseValue(response));
 
 	/** Prepares endpoint */
-	private readonly prepareEndpoint = (options: CallApiOptions) => {
+	private readonly prepareEndpoint = (
+		options: CallApiOptions,
+	): Readonly<string> => {
 		switch (options.type) {
 			case IsDayOffCallType.Today:
 			case IsDayOffCallType.Tomorrow:
@@ -226,7 +242,7 @@ export class IsDayOff {
 	private readonly prepareQuery = ({
 		type,
 		...options
-	}: CallApiOptions): string =>
+	}: CallApiOptions): Readonly<string> =>
 		Object.entries(options)
 			.map(([k, v]) => v && `${k}=${typeof v === "boolean" ? +v : v}`)
 			.filter(Boolean)

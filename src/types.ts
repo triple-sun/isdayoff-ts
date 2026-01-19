@@ -1,6 +1,6 @@
 import type { IsDayOffCallType } from "./enum";
 
-export type ApiOptions = {
+export type IsDayOffApiOptions = {
 	/** Country code (default: RU) */
 	cc?: string;
 	/** use 2 for short days @default false */
@@ -22,24 +22,24 @@ export type IsDayOffDateOptions = {
 	day: string;
 	month: string;
 	year: string;
-} & ApiOptions;
+} & IsDayOffApiOptions;
 
 export type IsDayOffMonthOptions = {
 	type: IsDayOffCallType.Month;
 	month: string;
 	year: string;
-} & ApiOptions;
+} & IsDayOffApiOptions;
 
 export type IsDayOffYearOptions = {
 	type: IsDayOffCallType.Year;
 	year: string;
-} & ApiOptions;
+} & IsDayOffApiOptions;
 
 export type IsDayOffIntervalOptions = {
 	type: IsDayOffCallType.Interval;
 	date1: string;
 	date2: string;
-} & ApiOptions;
+} & IsDayOffApiOptions;
 
 export type IsLeapYearApiOptions = {
 	type: IsDayOffCallType.LeapYear;
