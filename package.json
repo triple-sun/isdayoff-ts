@@ -1,11 +1,11 @@
 {
 	"name": "isdayoff-ts",
-	"version": "2.5.0",
+	"version": "2.5.1",
 	"main": "./build/index.js",
 	"license": "MIT",
 	"author": "triplesunn <sploit.strannik@gmail.com>",
 	"engines": {
-		"node": ">v18.20.0"
+		"node": ">18"
 	},
 	"scripts": {
 		"test": "jest",

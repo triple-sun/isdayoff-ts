@@ -3,6 +3,10 @@
 [![NPM Version](https://img.shields.io/npm/v/isdayoff-ts.svg?style=flat-square)](https://www.npmjs.com/package/isdayoff-ts)
 [![NPM Downloads](https://img.shields.io/npm/dt/isdayoff-ts.svg?style=flat-square)](https://www.npmjs.com/package/isdayoff-ts)
 
+[English](./readme.md) | [Русский](./readme.ru.md)
+
+[Changelog](./CHANGELOG.md) | [Список изменений](./CHANGELOG.ru.md)
+
 isdayoff-ts is a TypeScript fork and improvement of [isdayoff](https://www.npmjs.com/package/isdayoff), an API wrapper for [isdayoff.ru](https://isdayoff.ru).
 
 - zero dependencies
