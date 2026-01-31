@@ -1,0 +1,4 @@
+pnpm format
+tsc --noEmit
+pnpm exec lint-staged --allow-empty
+pnpm test
